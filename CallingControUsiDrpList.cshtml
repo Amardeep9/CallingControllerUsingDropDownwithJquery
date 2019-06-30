@@ -1,0 +1,44 @@
+﻿@model IEnumerable<CallingActionFromDropDown.Models.FruitModel>
+
+@{
+    ViewBag.Title = "CallingControUsiDrpList";
+}
+
+<h2>CallingControUsiDrpList</h2>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <style type="text/css">
+        body {
+            font-family: Arial;
+            font-size: 10pt;
+        }
+    </style>
+</head>
+<body>
+    @using (Html.BeginForm("Submit", "DropDown", FormMethod.Post, new { @name = "Form1" }))
+    {
+        @Html.DropDownList("FruitId", new SelectList(Model, "FruitId", "FruitName"), "Please select", new { @id = "ddlFruits" })
+        @Html.Hidden("FruitName", null, new { @id = "hfFruitName" })
+    }
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $("body").on("change", "#ddlFruits", function () {
+            $("#hfFruitName").val($(this).find("option:selected").text());
+            document.forms["Form1"].submit();
+        });
+    </script>
+    @if (TempData["Message"] != null)
+    {
+        <script type="text/javascript">
+            $(function () {
+                alert("@TempData["Message"]");
+            });
+        </script>
+    }
+</body>
+</html>
